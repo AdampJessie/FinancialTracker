@@ -1,11 +1,15 @@
 package com.pluralsight;
 
+import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FinancialTracker {
+
+
 
     private static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private static final String FILE_NAME = "transactions.csv";
@@ -20,8 +24,8 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to TransactionApp");
-            System.out.println("Choose an option:");
+            System.out.println("Welcome to Financial Reality!");
+            System.out.println("Please choose an option:");
             System.out.println("D) Add Deposit");
             System.out.println("P) Make Payment (Debit)");
             System.out.println("L) Ledger");
@@ -43,7 +47,7 @@ public class FinancialTracker {
                     running = false;
                     break;
                 default:
-                    System.out.println("Invalid option");
+                    System.out.println("Invalid option!");
                     break;
             }
         }
@@ -51,16 +55,7 @@ public class FinancialTracker {
         scanner.close();
     }
 
-    public static void loadTransactions(String fileName) {
-        // This method should load transactions from a file with the given file name.
-        // If the file does not exist, it should be created.
-        // The transactions should be stored in the `transactions` ArrayList.
-        // Each line of the file represents a single transaction in the following format:
-        // <date>|<time>|<description>|<vendor>|<amount>
-        // For example: 2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
-        // After reading all the transactions, the file should be closed.
-        // If any errors occur, an appropriate error message should be displayed.
-    }
+
 
     private static void addDeposit(Scanner scanner) {
         // This method should prompt the user to enter the date, time, description, vendor, and amount of a deposit.
@@ -69,7 +64,6 @@ public class FinancialTracker {
         // After validating the input, a new `Transaction` object should be created with the entered values.
         // The new deposit should be added to the `transactions` ArrayList.
     }
-
     private static void addPayment(Scanner scanner) {
         // This method should prompt the user to enter the date, time, description, vendor, and amount of a payment.
         // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
@@ -83,7 +77,7 @@ public class FinancialTracker {
         while (running) {
             System.out.println("Ledger");
             System.out.println("Choose an option:");
-            System.out.println("A) A`ll");
+            System.out.println("A) All");
             System.out.println("D) Deposits");
             System.out.println("P) Payments");
             System.out.println("R) Reports");
@@ -107,9 +101,41 @@ public class FinancialTracker {
                 case "H":
                     running = false;
                 default:
-                    System.out.println("Invalid option");
+                    System.out.println("Invalid option!");
                     break;
             }
+        }
+    }
+
+    public static void loadTransactions(String fileName) {
+    /*  This method should load transactions from a file with the given file name
+        If the file does not exist, it should be created
+        The transactions should be stored in the `transactions` ArrayList
+        Each line of the file represents a single transaction in the following format:
+        <date>|<time>|<description>|<vendor>|<amount>
+        For example: 2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
+        After reading all the transactions, the file should be closed
+        If any errors occur, an appropriate error message should be displayed
+    */
+
+        try {
+            new File(fileName).createNewFile();
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] tokens = line.split("[|]");
+                LocalDate date = LocalDate.parse(tokens[0]);
+                LocalTime time = LocalTime.parse(tokens[1]);
+                String description = tokens[2];
+                String vendor = tokens[3];
+                double amount = Double.parseDouble(tokens[4]);
+                transactions.add(new Transaction(date, time, description, vendor, amount));
+            }reader.close();
+        } catch (IOException e) {
+            System.err.println("File issue!");
+        } catch (Exception e) {
+            System.err.println("Something went wrong!");
         }
     }
 
@@ -117,17 +143,14 @@ public class FinancialTracker {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
     }
-
     private static void displayDeposits() {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
     }
-
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
     }
-
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
