@@ -142,10 +142,24 @@ public class FinancialTracker {
     private static void displayLedger() {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
+
+        System.out.println("+"+"-".repeat(90)+"+");
+        System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("+"+"-".repeat(90)+"+");
+        for (Transaction i : transactions) {
+            System.out.println(i);
+            System.out.println("+"+"-".repeat(90)+"+");
+        }
+
     }
     private static void displayDeposits() {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
+
+
+
+
     }
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
