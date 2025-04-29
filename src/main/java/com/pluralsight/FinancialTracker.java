@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class FinancialTracker {
 
 
-
     private static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private static final String FILE_NAME = "transactions.csv";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -56,7 +55,6 @@ public class FinancialTracker {
     }
 
 
-
     private static void addDeposit(Scanner scanner) {
         // This method should prompt the user to enter the date, time, description, vendor, and amount of a deposit.
         // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
@@ -64,6 +62,7 @@ public class FinancialTracker {
         // After validating the input, a new `Transaction` object should be created with the entered values.
         // The new deposit should be added to the `transactions` ArrayList.
     }
+
     private static void addPayment(Scanner scanner) {
         // This method should prompt the user to enter the date, time, description, vendor, and amount of a payment.
         // The user should enter the date and time in the following format: yyyy-MM-dd HH:mm:ss
@@ -131,7 +130,8 @@ public class FinancialTracker {
                 String vendor = tokens[3];
                 double amount = Double.parseDouble(tokens[4]);
                 transactions.add(new Transaction(date, time, description, vendor, amount));
-            }reader.close();
+            }
+            reader.close();
         } catch (IOException e) {
             System.err.println("File issue!");
         } catch (Exception e) {
@@ -143,28 +143,50 @@ public class FinancialTracker {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
 
-        System.out.println("+"+"-".repeat(90)+"+");
+        System.out.println("+" + "-".repeat(90) + "+");
         System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
                 "Date", "Time", "Description", "Vendor", "Amount");
-        System.out.println("+"+"-".repeat(90)+"+");
+        System.out.println("+" + "-".repeat(90) + "+");
         for (Transaction i : transactions) {
             System.out.println(i);
-            System.out.println("+"+"-".repeat(90)+"+");
+            System.out.println("+" + "-".repeat(90) + "+");
         }
+        int num = 10;
+        System.out.println(-Math.abs(num));
 
     }
+
     private static void displayDeposits() {
-        // This method should display a table of all deposits in the `transactions` ArrayList.
-        // The table should have columns for date, time, description, vendor, and amount.
 
-
-
-
+        System.out.println("+" + "-".repeat(90) + "+");
+        System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("+" + "-".repeat(90) + "+");
+        for (Transaction i : transactions) {
+            if (i.getAmount() > 0) {
+                System.out.println(i);
+                System.out.println("+" + "-".repeat(90) + "+");
+            }
+        }
     }
+
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
+
+        System.out.println("+" + "-".repeat(90) + "+");
+        System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("+" + "-".repeat(90) + "+");
+        for (Transaction i : transactions) {
+            if (i.getAmount() < 0) {
+                System.out.println(i);
+                System.out.println("+" + "-".repeat(90) + "+");
+            }
+        }
     }
+
+
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
@@ -196,6 +218,22 @@ public class FinancialTracker {
                 case "5":
                     // Prompt the user to enter a vendor name, then generate a report for all transactions
                     // with that vendor, including the date, time, description, vendor, and amount for each transaction.
+
+                    System.out.print("Please enter a vendor name: ");
+                    String inputVendor = scanner.nextLine();
+
+                    System.out.println("+" + "-".repeat(90) + "+");
+                    System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
+                            "Date", "Time", "Description", "Vendor", "Amount");
+                    System.out.println("+" + "-".repeat(90) + "+");
+                    for (Transaction i : transactions) {
+                        if (i.getVendor().equalsIgnoreCase(inputVendor)) {
+                            System.out.println(i);
+                            System.out.println("+" + "-".repeat(90) + "+");
+                        }
+                    }
+
+
                 case "0":
                     running = false;
                 default:
