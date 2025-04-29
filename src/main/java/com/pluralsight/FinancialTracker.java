@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class FinancialTracker {
 
 
-    private static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private static final ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private static final String FILE_NAME = "transactions.csv";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String TIME_FORMAT = "HH:mm:ss";
@@ -99,6 +99,7 @@ public class FinancialTracker {
                     break;
                 case "H":
                     running = false;
+                    break;
                 default:
                     System.out.println("Invalid option!");
                     break;
@@ -146,13 +147,11 @@ public class FinancialTracker {
         System.out.println("+" + "-".repeat(90) + "+");
         System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
                 "Date", "Time", "Description", "Vendor", "Amount");
-        System.out.println("+" + "-".repeat(90) + "+");
+        System.out.println("+" + "=".repeat(90) + "+");
         for (Transaction i : transactions) {
             System.out.println(i);
             System.out.println("+" + "-".repeat(90) + "+");
         }
-        int num = 10;
-        System.out.println(-Math.abs(num));
 
     }
 
@@ -205,33 +204,40 @@ public class FinancialTracker {
                 case "1":
                     // Generate a report for all transactions within the current month,
                     // including the date, time, description, vendor, and amount for each transaction.
+                    LocalDate thisMonth = LocalDate.now().withDayOfMonth(1);
+                    filterTransactionsByDate(thisMonth, LocalDate.now());
+                    break;
                 case "2":
                     // Generate a report for all transactions within the previous month,
                     // including the date, time, description, vendor, and amount for each transaction.
-                case "3":
+                    LocalDate lastMonth = LocalDate.now().minusMonths(1);
+                    filterTransactionsByDate(lastMonth, LocalDate.now());
+                    break;
+                    case "3":
                     // Generate a report for all transactions within the current year,
                     // including the date, time, description, vendor, and amount for each transaction.
-
+                    LocalDate thisYear = LocalDate.now().withDayOfYear(1);
+                    filterTransactionsByDate(thisYear, LocalDate.now());
+                    break;
                 case "4":
                     // Generate a report for all transactions within the previous year,
                     // including the date, time, description, vendor, and amount for each transaction.
+                    LocalDate lastYear = LocalDate.now().minusYears(1);
+                    filterTransactionsByDate(lastYear, LocalDate.now());
+                    break;
+
+
+
+
                 case "5":
                     // Prompt the user to enter a vendor name, then generate a report for all transactions
                     // with that vendor, including the date, time, description, vendor, and amount for each transaction.
-
                     System.out.print("Please enter a vendor name: ");
                     String inputVendor = scanner.nextLine();
+                    filterTransactionsByVendor(inputVendor);
 
-                    System.out.println("+" + "-".repeat(90) + "+");
-                    System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
-                            "Date", "Time", "Description", "Vendor", "Amount");
-                    System.out.println("+" + "-".repeat(90) + "+");
-                    for (Transaction i : transactions) {
-                        if (i.getVendor().equalsIgnoreCase(inputVendor)) {
-                            System.out.println(i);
-                            System.out.println("+" + "-".repeat(90) + "+");
-                        }
-                    }
+                    break;
+
 
 
                 case "0":
@@ -250,6 +256,25 @@ public class FinancialTracker {
         // The method loops through the transactions list and checks each transaction's date against the date range.
         // Transactions that fall within the date range are printed to the console.
         // If no transactions fall within the date range, the method prints a message indicating that there are no results.
+
+        boolean found = false;
+        for (Transaction i : transactions)
+            if (!i.getDate().isBefore(startDate) && !i.getDate().isAfter(endDate)) {
+                found = true;
+                break;
+            }
+
+        if (found) {
+            printColumn(true);
+            for (Transaction i : transactions) {
+                if (i.getDate().isAfter(startDate) && i.getDate().isBefore(endDate)) {
+                    System.out.println(i);
+                    System.out.println("+" + "-".repeat(90) + "+");
+
+                }
+            }
+
+        }else printColumn(false);
     }
 
     private static void filterTransactionsByVendor(String vendor) {
@@ -258,5 +283,40 @@ public class FinancialTracker {
         // The method loops through the transactions list and checks each transaction's vendor name against the specified vendor name.
         // Transactions with a matching vendor name are printed to the console.
         // If no transactions match the specified vendor name, the method prints a message indicating that there are no results.
+
+
+
+        boolean found = false;
+        for (Transaction i : transactions)
+            if (i.getVendor().equalsIgnoreCase(vendor)) {
+                found = true;
+                break;
+            }
+
+        if (found) {
+            printColumn(true);
+            for (Transaction i : transactions) {
+                if (i.getVendor().equalsIgnoreCase(vendor)) {
+                    System.out.println(i);
+                    System.out.println("+" + "-".repeat(90) + "+");
+
+                }
+            }
+
+        }else printColumn(false);
     }
+
+    public static void printColumn(boolean columnHeading) {
+
+        if (columnHeading) {
+
+            System.out.println("+" + "-".repeat(90) + "+");
+            System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
+                    "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.println("+" + "-".repeat(90) + "+");
+        }else System.out.println("Nothing to display!\n"+"-".repeat(20));;
+
+    }
+
+
 }
