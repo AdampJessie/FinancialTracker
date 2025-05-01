@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class FinancialTracker {
-
     private static final ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private static final String FILE_NAME = "transactions.csv";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -26,6 +25,7 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
+            System.out.println();
             System.out.println("-".repeat(30));
             System.out.println("Welcome to Financial Reality!");
             System.out.println("Please choose an option:");
@@ -56,7 +56,6 @@ public class FinancialTracker {
         }
         scanner.close();
     }
-
     private static void addDeposit(Scanner scanner) {
         /*
          This method should prompt the user to enter the date, time, description, vendor, and amount of a deposit.
@@ -82,6 +81,8 @@ public class FinancialTracker {
     private static void ledgerMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
+            System.out.println();
+            System.out.println("-".repeat(30));
             System.out.println("Ledger");
             System.out.println("Choose an option:");
             System.out.println("A) All");
@@ -154,8 +155,7 @@ public class FinancialTracker {
         // The table should have columns for date, time, description, vendor, and amount.
         printColumn(true);
         for (Transaction i : transactions) {
-            System.out.println(i);
-            System.out.println("+" + "-".repeat(90) + "+");
+            System.out.println(i + "\n+" + "-".repeat(94) + "+");
         }
 
     }
@@ -172,8 +172,7 @@ public class FinancialTracker {
             printColumn(true);
             for (Transaction i : transactions) {
                 if (i.getAmount() < 0) {
-                    System.out.println(i);
-                    System.out.println("+" + "-".repeat(90) + "+");
+                    System.out.println(i + "\n+" + "-".repeat(94) + "+");;
                 }
             }
         }else printColumn(false);
@@ -192,8 +191,7 @@ public class FinancialTracker {
             printColumn(true);
             for (Transaction i : transactions) {
                 if (i.getAmount() < 0) {
-                    System.out.println(i);
-                    System.out.println("+" + "-".repeat(90) + "+");
+                    System.out.println(i + "\n+" + "-".repeat(94) + "+");
                 }
             }
         }else printColumn(false);
@@ -202,6 +200,8 @@ public class FinancialTracker {
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
+            System.out.println();
+            System.out.println("-".repeat(30));
             System.out.println("Reports");
             System.out.println("Choose an option:");
             System.out.println("1) Month To Date");
@@ -255,6 +255,7 @@ public class FinancialTracker {
 
                 case "0":
                     running = false;
+                    break;
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -282,9 +283,7 @@ public class FinancialTracker {
             printColumn(true);
             for (Transaction i : transactions) {
                 if (!i.getDate().isBefore(startDate) && !i.getDate().isAfter(endDate)) {
-                    System.out.println(i);
-                    System.out.println("+" + "-".repeat(90) + "+");
-
+                    System.out.println(i + "\n+" + "-".repeat(94) + "+");
                 }
             }
 
@@ -311,9 +310,7 @@ public class FinancialTracker {
             printColumn(true);
             for (Transaction i : transactions) {
                 if (i.getVendor().equalsIgnoreCase(vendor)) {
-                    System.out.println(i);
-                    System.out.println("+" + "-".repeat(90) + "+");
-
+                    System.out.println(i + "\n+" + "-".repeat(94) + "+");
                 }
             }
 
@@ -324,10 +321,10 @@ public class FinancialTracker {
 
         if (columnHeading) {
 
-            System.out.println("+" + "-".repeat(90) + "+");
-            System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-8s |\n",
+            System.out.println("+" + "-".repeat(94) + "+");
+            System.out.printf("| %-10s | %-8s | %-30s | %-20s | %-12s |\n",
                     "Date", "Time", "Description", "Vendor", "Amount");
-            System.out.println("+" + "-".repeat(90) + "+");
+            System.out.println("+" + "-".repeat(94) + "+");
         }else System.out.println("Nothing to display!\n"+"-".repeat(20));;
 
     }
@@ -351,7 +348,6 @@ public class FinancialTracker {
                 if (isPayment) amountDouble = -(amountDouble);
                 Transaction i = new Transaction(inputDate, inputTime, inputDescription, inputVendor, amountDouble);
                 transactions.add(i);
-
 
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
                      writer.write(String.format("\n%s|%s|%s|%s|%s",i.getDate(),i.getTime(),i.getDescription(),i.getVendor(),i.getAmount()));
