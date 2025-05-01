@@ -1,6 +1,9 @@
 package com.pluralsight;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.*;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +12,6 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class FinancialTracker {
-
 
     private static final ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private static final String FILE_NAME = "transactions.csv";
@@ -24,6 +26,7 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
+            System.out.println("-".repeat(30));
             System.out.println("Welcome to Financial Reality!");
             System.out.println("Please choose an option:");
             System.out.println("D) Add Deposit");
@@ -51,10 +54,8 @@ public class FinancialTracker {
                     break;
             }
         }
-
         scanner.close();
     }
-
 
     private static void addDeposit(Scanner scanner) {
         /*
@@ -64,9 +65,7 @@ public class FinancialTracker {
          After validating the input, a new `Transaction` object should be created with the entered values.
          The new deposit should be added to the `transactions` ArrayList.
         */
-
-        addTransaction(false, scanner);
-
+                addTransaction(false, scanner);
     }
 
     private static void addPayment(Scanner scanner) {
@@ -77,12 +76,7 @@ public class FinancialTracker {
          After validating the input, a new `Transaction` object should be created with the entered values.
          The new payment should be added to the `transactions` ArrayList.
         */
-
-        addTransaction(true, scanner);
-
-
-
-
+                addTransaction(true, scanner);
     }
 
     private static void ledgerMenu(Scanner scanner) {
@@ -339,37 +333,40 @@ public class FinancialTracker {
     }
 
     public static void addTransaction(boolean isPayment, Scanner scanner) {
+        while (true) {
+            try {
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME,true));
+                System.out.print("Please enter date (yyyy-MM-dd):");
+                LocalDate inputDate = LocalDate.parse(scanner.nextLine());
+                System.out.print("Please enter time (HH:mm:ss): ");
+                LocalTime inputTime = LocalTime.parse(scanner.nextLine());
+                System.out.print("Please enter description: ");
+                String inputDescription = scanner.nextLine();
+                System.out.print("Please enter vendor: ");
+                String inputVendor = scanner.nextLine();
+                System.out.print("Please enter amount: $");
+                String amountString = scanner.nextLine();
+                double amountDouble = Math.abs(Double.parseDouble(amountString));
 
-            System.out.print("Please enter date (yyyy-MM-dd):");
-            LocalDate inputDate = LocalDate.parse(scanner.nextLine());
-            System.out.print("Please enter time (HH:mm:ss): ");
-            LocalTime inputTime = LocalTime.parse(scanner.nextLine());
-            System.out.print("Please enter description: ");
-            String inputDescription = scanner.nextLine();
-            System.out.print("Please enter vendor: ");
-            String inputVendor = scanner.nextLine();
-            System.out.print("Please enter amount: $");
-            double inputAmount = Math.abs(scanner.nextDouble());
-            if (isPayment) inputAmount = -Math.abs(inputAmount);
-            scanner.nextLine();
-
-            Transaction transaction = new Transaction(inputDate, inputTime, inputDescription, inputVendor, inputAmount);
-            transactions.add(transaction);
-
-            writer.write(String.format("\n%s|%s|%s|%s|%s", inputDate, inputTime, inputDescription, inputVendor, inputAmount));
-            writer.close();
-            System.out.println("Success!");
+                if (isPayment) amountDouble = -(amountDouble);
+                Transaction i = new Transaction(inputDate, inputTime, inputDescription, inputVendor, amountDouble);
+                transactions.add(i);
 
 
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+                     writer.write(String.format("\n%s|%s|%s|%s|%s",i.getDate(),i.getTime(),i.getDescription(),i.getVendor(),i.getAmount()));
+                }
+                    System.out.println("Success!");
+                    break;
+            }catch (DateTimeException e) {
+                    System.out.println("Invalid date/time! Please try again.");
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid amount! Please try again.");
+                    System.out.println();
+            } catch (Exception e) {
+                    System.err.println("Something went wrong!\n" + e);
+                    break;
+            }
         }
-
     }
-
 }
