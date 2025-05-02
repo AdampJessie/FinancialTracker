@@ -289,49 +289,34 @@ public class FinancialTracker {
         }
     }
     private static void filterTransactionsByDate(LocalDate startDate, LocalDate endDate) {
-        // Pre-check if there are elements that match the given start/end date.
+        // Checks for dates inclusively (hence the ! operator) and prints elements if found.
         boolean found = false;
-        for (Transaction transaction : transactions)
+        for (Transaction transaction : transactions) {
             if (!transaction.getDate().isBefore(startDate) && !transaction.getDate().isAfter(endDate)) {
-                found = true;
-                break;
-            }
-        // If elements are found, print table header (Date, Time, etc) and all elements that match the given dates.
-        if (found) {
-            printColumn(true);
-            for (Transaction transaction : transactions) {
-                if (!transaction.getDate().isBefore(startDate) && !transaction.getDate().isAfter(endDate)) {
+                    if (!found) printColumn(true);
+                    found = true;
                     System.out.println(transaction + "\n+" + "-".repeat(94) + "+");
                 }
             }
-        // If no elements match, inform the user!
-        } else printColumn(false);
-    }
+        if (!found) printColumn(false);
+}
     private static void filterTransactionsByVendor(String vendor) {
-        // Pre-check similar to Filter Date method!
+        // Check and print similar to Filter Date method!
         boolean found = false;
-        for (Transaction transaction : transactions)
+        for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                if (!found) printColumn(true);
                 found = true;
-                break;
+                System.out.println(transaction + "\n+" + "-".repeat(94) + "+");
             }
-        // Enhanced for loop printing similar to Filter Date method!
-        if (found) {
-            printColumn(true);
-            for (Transaction transaction : transactions) {
-                if (transaction.getVendor().equalsIgnoreCase(vendor)) {
-                    System.out.println(transaction + "\n+" + "-".repeat(94) + "+");
-                }
-            }
-        // If no elements to display, inform that user!
-        } else printColumn(false);
+        }
+        if (!found) printColumn(false);
     }
     public static void customSearch(Scanner scanner) {
         // Initializing the search variables as null and accepting user input for search!
         LocalDate searchStartDate = null;
         System.out.print("Please enter a Start Date (yyyy-MM-DD): ");
         String inputStartDate = scanner.nextLine();
-
 
         LocalDate searchEndDate = null;
         System.out.print("Please enter an End Date (yyyy-MM-DD): ");
@@ -372,18 +357,14 @@ public class FinancialTracker {
             boolean matches = true;
             if (searchStartDate != null && transaction.getDate().isBefore(searchStartDate))
                 matches = false;
-            if (searchEndDate != null && transaction.getDate().isAfter(searchEndDate)) {
+            if (searchEndDate != null && transaction.getDate().isAfter(searchEndDate))
                 matches = false;
-            }
-            if (!inputDescription.isEmpty() && !inputDescription.equals(transaction.getDescription())) {
+            if (!inputDescription.isEmpty() && !inputDescription.equals(transaction.getDescription()))
                 matches = false;
-            }
-            if (!inputVendor.isEmpty() && !inputVendor.equals(transaction.getVendor())) {
+            if (!inputVendor.isEmpty() && !inputVendor.equals(transaction.getVendor()))
                 matches = false;
-            }
-            if (searchAmount != null && searchAmount != transaction.getAmount()) {
+            if (searchAmount != null && searchAmount != transaction.getAmount())
                 matches = false;
-            }
             if (matches) {
                 if (!found) printColumn(true);
                 found = true;
@@ -392,7 +373,6 @@ public class FinancialTracker {
         }
         if (!found) printColumn(false);
     }
-
     public static void printColumn(boolean columnHeading) {
         // Repeatable pretty formatting! Accepts parameter for lack of output!
         if (columnHeading) {
