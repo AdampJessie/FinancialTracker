@@ -194,7 +194,7 @@ public class FinancialTracker {
         // Enhanced for loop iterating and printing each element in the list.
         printColumn(true);
         for (Transaction transaction : transactions) {
-            System.out.println(transaction + "\n" + "-".repeat(94) + "+");
+            System.out.println(transaction + "\n+" + "-".repeat(94) + "+");
         }
 
     }
