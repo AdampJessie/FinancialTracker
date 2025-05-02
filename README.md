@@ -1,15 +1,13 @@
-# Project Title
+# Financial Tracker
 
-## Description of the Project
-
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what  problems it aims to solve.
+## Description
 
 This Java console application acts as a financial tracker. The intended user is any individual who wishes to organize their finances! The purpose is to take a file containing an unorganized list of deposits and payments
 and deliver sorted information in a user-friendly readable way. The user has the ability to view all transactions, view only deposits or payments, and filter by date or vendor.
 
 ## User Stories
 
-List the user stories that guided the development of this application. Formatted as: "As a [type of user], I want [goal] so that [reason]."
+List of user stories that guided the development of this application. Formatted as: "As a [type of user], I want [goal] so that [reason]."
 
 - As an individual, I would like an intuitive menu selection screen so that I always know what my available options are.
 - As an individual, I would like to read information from a file containing my financial information so that I can quickly consolidate and organize prerecorded information.
