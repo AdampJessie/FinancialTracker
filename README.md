@@ -2,19 +2,23 @@
 
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
+Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what  problems it aims to solve.
 
-![Class Diagram](path/to/your/class_diagram.png)
+This Java console application acts as a financial tracker. The intended user is any individual who wishes to organize their finances! The purpose is to take a file containing an unorganized list of deposits and payments
+and deliver sorted information in a user-friendly readable way. The user has the ability to view all transactions, view only deposits or payments, and filter by date or vendor.
 
 ## User Stories
 
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
+List the user stories that guided the development of this application. Formatted as: "As a [type of user], I want [goal] so that [reason]."
 
-- As a user, I want to be able to input my data, so that the application can process it accordingly.
-- As a user, I want to receive immediate feedback, so I can understand what to do next.
+- As an individual, I would like an intuitive menu selection screen so that I always know what my available options are.
+- As an individual, I would like to read information from a file containing my financial information so that I can quickly consolidate and organize prerecorded information.
+- As an individual, I would like to record my deposits and payments and save it to a file so that I can keep a comprehensive record of my losses and gains.
+- As an individual, I would like to view a ledger that allows filtering so that I may fully organize my finances without any hassle.
+- As an individual, I would like to run tailored reports that allow for custom searches (Month to Date, Previous Month, etc) so that I may quickly access relevant information.
+
 
 ## Setup
-
 Instructions on how to set up and run the project using IntelliJ IDEA.
 
 ### Prerequisites
@@ -34,38 +38,36 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Technologies Used
 
-- Java: Mention the version you are using.
-- Any additional libraries or frameworks used in the project.
+- Java: Maven, Oracle OpenJDK 17.0.2
+- Packages: Java IO, Java DateTime, Java Utilities.
+- Text Editor: IntelliJ IDEA Community Edition 2024.3.5
 
 ## Demo
 
-Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
-
-![Application Screenshot](C:\Users\flipp\Pictures\hab.jpg)
+![demo-gif.gif](Demo/demo-gif.gif)
 
 ## Future Work
 
 Outline potential future enhancements or functionalities you might consider adding:
 
-- Additional feature to be developed.
-- Improvement of current functionalities.
+- Custom search (Date Start/End, Description, Vendor, Amount)
+- Improvement of current functionalities (error handling, sorting input file).
 
 ## Resources
 
 List resources such as tutorials, articles, or documentation that helped you during the project.
 
-- [Java Programming Tutorial](https://www.example.com)
-- [Effective Java](https://www.example.com)
+- [W3 Schools](https://www.w3schools.com/java/) - Informational Resource
+- [ChatGPT by OpenAI](https://chatgpt.com/) - Formatting and syntax assistance
 
 ## Team Members
 
-- **Name 1** - Specific contributions or roles.
-- **Name 2** - Specific contributions or roles.
+- **Adam Jessie** - Main author, application logic, formatting 
+- **Raymond Maroun** - Foundational code, application menu, formatting.
 
 ## Thanks
 
-Express gratitude towards those who provided help, guidance, or resources:
-
-- Thank you to [Mentor's Name] for continuous support and guidance.
-- A special thanks to all teammates for their dedication and teamwork.
+- Thank you to *Raymond Maroun*, my amazing instructor, for your continuous support and guidance.
+- Thank you to all of my classmates for your vital collaboration and inspiration!
+- Special thanks to any users/testers! 
  
